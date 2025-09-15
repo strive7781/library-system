@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加载测试数据</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        .info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        button {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        button.secondary {
+            background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+        }
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 加载测试数据</h1>
+        
+        <div class="info">
+            <p><strong>测试数据信息：</strong></p>
+            <p>• 总图书数量：300本</p>
+            <p>• 包含多种分类：文学、科技、历史、艺术、教育、其他</p>
+            <p>• 包含多位作者和捐赠人信息</p>
+            <p>• 30%的图书标记为捐赠图书</p>
+        </div>
+
+        <button onclick="loadTestData()">🚀 加载测试数据到系统</button>
+        <button class="secondary" onclick="clearData()">🗑️ 清空现有数据</button>
+        <button class="secondary" onclick="goToMain()">📖 返回主系统</button>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        // 内嵌测试数据
+        const testBooks = [
+  {
+    "id": "1757919470937299",
+    "title": "测试图书300",
+    "author": "钱钟书",
+    "category": "教育",
+    "isDonated": false,
+    "donor": "",
+    "remarks": "这是第300本测试图书，用于性能测试",
+    "createdAt": "2025/9/15 14:57:50"
+  },
+  {
+    "id": "1757919470937298",
+    "title": "极简示例图书",
+    "author": "示例作者",
+    "category": "示例分类",
+    "isDonated": true,
+    "donor": "示例捐赠人",
+    "remarks": "这是示例图书的备注信息",
+    "createdAt": "2025/9/15 14:57:50"
+  }
+];
+
+        function loadTestData() {
+            // 直接使用内嵌数据
+            localStorage.setItem('books', JSON.stringify(testBooks));
+            
+            // 更新状态
+            document.getElementById('status').innerHTML = `
+                <p style="color: #48bb78; font-weight: bold;">✅ 成功加载测试图书！</p>
+                <p>数据已保存到localStorage，现在可以返回主系统查看。</p>
+            `;
+            
+            console.log('测试数据加载完成，图书数量:', testBooks.length);
+        }
+
+        function clearData() {
+            if (confirm('确定要清空所有图书数据吗？此操作不可恢复！')) {
+                localStorage.removeItem('books');
+                document.getElementById('status').innerHTML = `
+                    <p style="color: #48bb78;">✅ 数据已清空</p>
+                `;
+            }
+        }
+
+        function goToMain() {
+            window.location.href = 'index.html';
+        }
+
+        // 显示当前数据状态
+        const currentBooks = JSON.parse(localStorage.getItem('books') || '[]');
+        if (currentBooks.length > 0) {
+            document.getElementById('status').innerHTML = `
+                <p>当前系统中有 <strong>${currentBooks.length}</strong> 本图书</p>
+            `;
+        }
+    </script>
+</body>
+</html>

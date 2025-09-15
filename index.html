@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书管理系统</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 图书管理系统</h1>
+            <p>高效管理您的图书收藏</p>
+        </header>
+
+        <div class="main-content">
+            <!-- 左侧表单 -->
+            <div class="form-section">
+                <h2>添加图书</h2>
+                <form id="bookForm">
+                    <div class="form-group">
+                        <label for="title">书名 *</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="author">作者 *</label>
+                        <input type="text" id="author" name="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category">分类</label>
+                        <select id="category" name="category">
+                            <option value="">请选择分类</option>
+                            <option value="文学">文学</option>
+                            <option value="科技">科技</option>
+                            <option value="历史">历史</option>
+                            <option value="艺术">艺术</option>
+                            <option value="教育">教育</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="isDonated" name="isDonated" onchange="bookManager.toggleDonorField()">
+                            <span class="checkbox-checkmark"></span>
+                            <span class="checkbox-label">是否捐赠</span>
+                        </label>
+                    </div>
+                    <div class="form-group" id="donorField" style="display: none;">
+                        <label for="donor">捐赠人</label>
+                        <input type="text" id="donor" name="donor">
+                    </div>
+                    <div class="form-group">
+                        <label for="remarks">备注</label>
+                        <textarea id="remarks" name="remarks" rows="3"></textarea>
+                    </div>
+                    <button type="submit">添加图书</button>
+                </form>
+            </div>
+
+            <!-- 右侧图书列表 -->
+            <div class="list-section">
+                <div class="action-bar">
+                    <h2>图书列表</h2>
+                    <div style="display: flex; gap: 10px;">
+                        <button id="categoryBtn" class="category-btn">管理分类</button>
+                        <button id="exportAllBtn" class="export-btn">导出全部</button>
+                        <button id="exportDonatedBtn" style="background: linear-gradient(135deg, #ed64a6 0%, #d53f8c 100%);">导出捐赠</button>
+                        <button onclick="window.location.href='load-300-books.html'" 
+                                style="background: linear-gradient(135deg, #805ad5 0%, #6b46c1 100%); 
+                                       color: white; 
+                                       border: none; 
+                                       padding: 8px 16px; 
+                                       border-radius: 6px; 
+                                       cursor: pointer;
+                                       font-size: 14px;">
+                            测试数据
+                        </button>
+                    </div>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="搜索图书...">
+                </div>
+                <div id="bookList" class="book-list">
+                    <!-- 图书列表将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分类管理模态框 -->
+    <div id="categoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>管理分类</h3>
+                <button class="modal-close" onclick="bookManager.closeModal()">×</button>
+            </div>
+            <div class="form-group">
+                <label for="newCategory">添加新分类</label>
+                <input type="text" id="newCategory" placeholder="输入分类名称">
+                <button onclick="bookManager.addCategory()" style="margin-top: 10px;">添加</button>
+            </div>
+            <div>
+                <h4>现有分类</h4>
+                <div id="categoryList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="test-add-books.js"></script>
+</body>
+</html>
